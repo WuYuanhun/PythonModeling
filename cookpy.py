@@ -84,7 +84,7 @@ class TopsisMatrix(object):
     ''' generate Evaluation Matrix '''
     def genEvaMat(self):
         if self.ndUpdate :
-            self.topMat = np.matrix(self.topNaMat)
+            self.topMat = np.array(self.topNaMat)
             self.ndUpdate = False
         return  self.topMat
         
@@ -94,11 +94,10 @@ class TopsisMatrix(object):
         self.fotMat = self.topNaMat
         
         
-        for obj in self.fotMat:
+        for obj in self.fotMat.__len__:
             base = calEuclidDis(obj)
             print("base: "+str(base))
-            for x in obj:
-                x /= base
+
 
         return self.fotMat
     ''' generate weight formulate matrix'''

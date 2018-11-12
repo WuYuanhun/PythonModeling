@@ -1,0 +1,5 @@
+Name,Year,Angle,Length,Speed,Height,Duration,Material,Type,Inversion,Drop
+A,1,90,1000,110,200,60,1,1,2,100
+B,1,60,900,50,800,150,2,2,10,700
+C,2,30,1500,120,100,40,2,3,3,50
+D,3,45,1200,90,150,100,1,4,5,120

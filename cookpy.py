@@ -1,5 +1,9 @@
-import numpy as np 
+from __future__ import division
+
 import csv
+
+import numpy as np
+
 
 def calEuclidDis(vector):
    # if(not isinstance(vector, list)):
@@ -48,13 +52,14 @@ class TopsisMatrix(object):
             data.pop(0)
             self.push_back(data)
         else:
+            self.kname = []
             ''' init org data '''
             self.push_back(data)
 
     ''' add another array object to evaulate'''
     def __push_back_list(self, data):
         if(isinstance(data, list)):
-            self.topNaMat.append(np.array(data))
+            self.topNaMat.append(np.array(data,dtype=np.float64))
 
 
     ''' add another object(s) to evaluate'''
@@ -87,22 +92,43 @@ class TopsisMatrix(object):
             self.topMat = np.array(self.topNaMat)
             self.ndUpdate = False
         return  self.topMat
-        
+    
+    ''' return size of matrix '''
+    def sizeM(self):
+        self.numObj = len(self.topNaMat)
+        self.numCrt = len(self.topNaMat[0])
+
+    ''' return key name '''
+    def knameAt(self,idx):
+        if not isinstance(idx, int):
+            raise TypeError()
+        if len(self.kname) <= 0 :
+            for i in range(0, self.numCrt):
+                self.kname.append("Crit "+str(i))
+        if len(self.kname) <= idx:
+            raise Exception("Out of Range")
+        else:
+            return self.kname[idx]
 
     ''' formulate matrix '''
     def genFotMat(self):   
         self.fotMat = self.topNaMat
-        
-        
-        for obj in self.fotMat.__len__:
-            base = calEuclidDis(obj)
-            print("base: "+str(base))
-
-
+        self.sizeM()
+        for obj in range(0, self.numCrt):
+            base = calEuclidDis([self.topNaMat[x][obj] for x in range(0,self.numObj)])
+            print(self.knameAt(obj)+" base: "+str(base))
+            for v in range(0,self.numObj):
+                self.fotMat[v][obj] /= base
+                print(self.fotMat[v][obj],end=' ')
+            print()
         return self.fotMat
+
     ''' generate weight formulate matrix'''
     def genWgtMat(self):
         self.wgtMat = self.fotMat
+
+        if len(self.weight) != self.numCrt:
+            self.weight = np.ones(shape=self.numCrt,dtype=np.float64)
         
         for obj in self.wgtMat:
             idx = 0
@@ -117,8 +143,8 @@ class TopsisMatrix(object):
         print("genEvaMat Comp")
         print(self.genFotMat())
         print("genFotMat Comp")
-       # print(self.genWgtMat())
-       # print("genWgtMat Comp")
+        print(self.genWgtMat())
+        print("genWgtMat Comp")
 
 def main():
     filename = "./data/dataset.csv"
@@ -126,15 +152,14 @@ def main():
         Reader = csv.reader(f)
         dataset = list(Reader)
         print(dataset)
-        dataset = [[1,90,1000,110,200,60,1,1,2,100],
+        dataset = [["Year","Angle","Length","Speed","Height","Duration","Material","Type","Inversion","Drop"],
+                    [1,90,1000,110,200,60,1,1,2,100],
                     [1,60,900,50,800,150,2,2,10,700],
                     [2,30,1500,120,100,40,2,3,3,50],
                     [3,45,1200,90,150,100,1,4,5,120]]
-        MaoMatrix = TopsisMatrix(data=dataset, mode="all")
+        MaoMatrix = TopsisMatrix(data=dataset,mode="all")
         return MaoMatrix
 
 if __name__ == "__main__":
     MaoMatrix = main()
     MaoMatrix.run()
-        
-        

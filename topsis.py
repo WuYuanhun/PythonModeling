@@ -150,6 +150,26 @@ class TopsisMatrix(object):
     def readObjName(self,data):
         self.objName = data
 
+    def rank(self):
+        self.orgRanking = []
+        obj = {}
+        for i in range(0,self.numObj):
+            obj = {}
+            obj["name"] = self.objName[i]
+            obj["v"] = sum(self.wgtMat[i])
+            #print(obj)
+            self.orgRanking.append(obj)
+
+        #print(self.orgRanking) 
+        self.ranking = sort(self.orgRanking)
+
+        i=0
+        print("Idx  Name          score")
+        for x in self.ranking:
+            i+=1
+            print("%-3d  %-10.10s    "%(i,x["name"])+str(x["v"]))
+        return self.ranking
+
     def run(self):
         print(self.genEvaMat())
         print("genEvaMat Comp")
@@ -157,6 +177,18 @@ class TopsisMatrix(object):
         print("genFotMat Comp")
         print(self.genWgtMat())
         print("genWgtMat Comp")
+        print("---------------")
+        self.rank()
+
+def sort(data,reverse=False):
+    r = data
+    for i in range(0,len(r)-1):
+        for j in range(i,len(r)):
+            if r[i]["v"] > r[j]["v"]:
+                r[i], r[j] = r[j], r[i]
+    if reverse:
+        r = r.reverse()        
+    return r
 
 def store(data,filename="./data/temp.csv",type="default",header=None):
     
@@ -201,6 +233,7 @@ def main(): # test use
                     [2,30,1500,120,100,40 ,2,3,3 ,50 ],
                     [3,45,1200,90 ,150,100,1,4,5 ,120]]
         tMatrix = TopsisMatrix(data=dataset,mode="all")
+        tMatrix.readObjName(["a","b","c","d"])
         return tMatrix
 
 def DEEPmain():

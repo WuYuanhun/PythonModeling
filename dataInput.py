@@ -38,7 +38,7 @@ def getRidOfName():
                 #         bookS[i]    
             objName.append(x.pop(0))
 
-        objName.pop(0)  
+        #objName.pop(0)  
         keywords.insert(0,kname)  
 
         return (keywords,objName)

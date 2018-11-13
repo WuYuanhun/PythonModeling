@@ -6,6 +6,8 @@ import numpy as np
 
 import pandas as pd
 
+import dataInput as dip
+
 
 def calEuclidDis(vector):
    # if(not isinstance(vector, list)):
@@ -151,6 +153,9 @@ class TopsisMatrix(object):
                 nBig = max(self.wgtMat[i][x],nBig)
             self.idealSolution.append(nBig)
 
+    def readObjName(self,data):
+        self.objName = data
+
     def run(self):
         print(self.genEvaMat())
         print("genEvaMat Comp")
@@ -158,20 +163,6 @@ class TopsisMatrix(object):
         print("genFotMat Comp")
         print(self.genWgtMat())
         print("genWgtMat Comp")
-
-def main():
-    filename = "./data/dataset.csv"
-    with open(filename) as f:
-        Reader = csv.reader(f)
-        dataset = list(Reader)
-        print(dataset)
-        dataset = [ ["Year","Angle","Length","Speed","Height","Duration","Material","Type","Inversion","Drop"],
-                    [1,90,1000,110,200,60 ,1,1,2 ,100],
-                    [1,60,900 ,50 ,800,150,2,2,10,700],
-                    [2,30,1500,120,100,40 ,2,3,3 ,50 ],
-                    [3,45,1200,90 ,150,100,1,4,5 ,120]]
-        MaoMatrix = TopsisMatrix(data=dataset,mode="all")
-        return MaoMatrix
 
 def store(data,filename="./data/temp.csv",type="default",header=None):
     
@@ -204,8 +195,29 @@ def max(x, y):
     else:
         return y
 
+def main():
+    filename = "./data/dataset.csv"
+    with open(filename) as f:
+        Reader = csv.reader(f)
+        dataset = list(Reader)
+        print(dataset)
+        dataset = [ ["Year","Angle","Length","Speed","Height","Duration","Material","Type","Inversion","Drop"],
+                    [1,90,1000,110,200,60 ,1,1,2 ,100],
+                    [1,60,900 ,50 ,800,150,2,2,10,700],
+                    [2,30,1500,120,100,40 ,2,3,3 ,50 ],
+                    [3,45,1200,90 ,150,100,1,4,5 ,120]]
+        MaoMatrix = TopsisMatrix(data=dataset,mode="all")
+        return MaoMatrix
+
+def DEEPmain():
+    dataset = dip.getRidOfName()
+    MaoMatrix = TopsisMatrix(data=dataset[0],mode="all")
+    MaoMatrix.readObjName(dataset[1])
+    MaoMatrix.run()
+    return MaoMatrix
+    
 
 if __name__ == "__main__":
-    MaoMatrix = main()
-    MaoMatrix.run()
+    # MaoMatrix = main()
+    # MaoMatrix.run()
     store(MaoMatrix.wgtMat,type="matrix",header=MaoMatrix.kname)

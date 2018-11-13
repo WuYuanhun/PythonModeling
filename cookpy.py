@@ -47,6 +47,9 @@ class TopsisMatrix(object):
         ''' Formulate Matrix need to be evalutate '''
         self.ndUpdate = True  
 
+        ''' ideal solution '''
+        self.idealSolution = []
+
         if(mode == "kname"):
             self.kname = data
         elif(mode == "all"):
@@ -140,6 +143,14 @@ class TopsisMatrix(object):
         
         return self.wgtMat
 
+    def solIdealSolution(self):
+        self.idealSolution = []
+        for x in range(0,self.numCrt):
+            nBig = self.wgtMat[0][x]
+            for i in range(0,self.numObj):
+                nBig = max(self.wgtMat[i][x],nBig)
+            self.idealSolution.append(nBig)
+
     def run(self):
         print(self.genEvaMat())
         print("genEvaMat Comp")
@@ -186,6 +197,12 @@ def show(data, type, header=None):
         for x in data:
             print("%.5f"%x,end='   ')
         print()
+
+def max(x, y):
+    if x>y:
+        return x
+    else:
+        return y
 
 
 if __name__ == "__main__":

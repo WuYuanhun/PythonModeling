@@ -160,6 +160,26 @@ def main():
         MaoMatrix = TopsisMatrix(data=dataset,mode="all")
         return MaoMatrix
 
+def store(data,filename="./data/temp.csv",type="default",header=None):
+    
+    if type=="matrix":
+        with open(filename,'w') as f:
+            if header is not None:
+                for x in header:
+                    x +='      '
+                    print("%.5s"%x,end='   ')
+                    f.write("%.5s   "%x)
+                f.write('\n')
+                print()
+                    
+            for obj in data:
+                for x in obj:
+                   print("%5.3f"%x,end='    ')
+                   f.write("%5.3f   "%x)
+                print()
+                f.write('\n')
+
 if __name__ == "__main__":
     MaoMatrix = main()
     MaoMatrix.run()
+    store(MaoMatrix.wgtMat,type="matrix",header=MaoMatrix.kname)

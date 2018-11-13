@@ -10,12 +10,6 @@ import dataInput as dip
 
 
 def calEuclidDis(vector):
-   # if(not isinstance(vector, list)):
-    #    raise TypeError("function calEuclidDis needs a parameter of list or numpy array")
-    
-    # vector = np.array(vector)[0]
-    # print("vector")
-    # print(vector)
     sum = 0
     for x in vector:
         sum += (x**2)
@@ -195,7 +189,7 @@ def max(x, y):
     else:
         return y
 
-def main():
+def main(): # test use
     filename = "./data/dataset.csv"
     with open(filename) as f:
         Reader = csv.reader(f)
@@ -206,18 +200,19 @@ def main():
                     [1,60,900 ,50 ,800,150,2,2,10,700],
                     [2,30,1500,120,100,40 ,2,3,3 ,50 ],
                     [3,45,1200,90 ,150,100,1,4,5 ,120]]
-        MaoMatrix = TopsisMatrix(data=dataset,mode="all")
-        return MaoMatrix
+        tMatrix = TopsisMatrix(data=dataset,mode="all")
+        return tMatrix
 
 def DEEPmain():
     dataset = dip.getRidOfName()
-    MaoMatrix = TopsisMatrix(data=dataset[0],mode="all")
-    MaoMatrix.readObjName(dataset[1])
-    MaoMatrix.run()
-    return MaoMatrix
+    tMatrix = TopsisMatrix(data=dataset[0],mode="all")
+    tMatrix.readObjName(dataset[1])
+    tMatrix.run()
+    return tMatrix
     
 
 if __name__ == "__main__":
-    # MaoMatrix = main()
-    # MaoMatrix.run()
-    store(MaoMatrix.wgtMat,type="matrix",header=MaoMatrix.kname)
+    # tMatrix = main()
+    # tMatrix.run()
+    tMatrix = DEEPmain()
+

@@ -4,6 +4,8 @@ import csv
 
 import numpy as np
 
+import pandas as pd
+
 
 def calEuclidDis(vector):
    # if(not isinstance(vector, list)):
@@ -180,7 +182,10 @@ def store(data,filename="./data/temp.csv",type="default",header=None):
                 f.write('\n')
 
 def show(data, type, header=None):
-    if(type=="array" || type=="list"):
+    if(type=="array" or type=="list"):
+        for x in data:
+            print("%.5f"%x,end='   ')
+        print()
 
 
 if __name__ == "__main__":
